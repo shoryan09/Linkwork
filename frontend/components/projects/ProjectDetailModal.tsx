@@ -394,6 +394,7 @@ export default function ProjectDetailModal({
                             skills: project.skills,
                             location: project.location,
                             status: project.status,
+                            createdAt: project.createdAt,
                           };
                           onClose();
                           // Use setTimeout to ensure modal closes before opening new one
