@@ -27,7 +27,7 @@ export default function RateExperienceModal({
     overall: 0,
   });
   const [comment, setComment] = useState("");
-  const [hoveredRating, setHoveredRating] = useState<{ [key: string]: number | undefined }>({});
+  const [hoveredRating, setHoveredRating] = useState<{ [key: string]: number }>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -88,7 +88,7 @@ export default function RateExperienceModal({
   };
 
   const renderStars = (category: string, currentValue: number) => {
-    const displayValue = hoveredRating[category] !== undefined ? hoveredRating[category] : currentValue;
+    const displayValue = hoveredRating[category] || currentValue;
 
     return (
       <div className="flex gap-2">
@@ -98,7 +98,7 @@ export default function RateExperienceModal({
             type="button"
             onClick={() => handleStarClick(category, star)}
             onMouseEnter={() => setHoveredRating((prev) => ({ ...prev, [category]: star }))}
-            onMouseLeave={() => setHoveredRating((prev) => ({ ...prev, [category]: undefined }))}
+            onMouseLeave={() => setHoveredRating((prev) => ({ ...prev, [category]: 0 }))}
             className="transition-transform hover:scale-110 focus:outline-none"
           >
             <svg
