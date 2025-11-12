@@ -25,6 +25,7 @@ interface ProjectDetails {
   proposalsCount?: number;
   deadline?: string;
   createdAt: string;
+  finishedAt?: string;
   clientId?: {
     _id: string;
     displayName: string;
