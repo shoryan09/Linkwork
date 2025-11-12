@@ -27,7 +27,7 @@ export default function RateExperienceModal({
     overall: 0,
   });
   const [comment, setComment] = useState("");
-  const [hoveredRating, setHoveredRating] = useState<{ [key: string]: number }>({});
+  const [hoveredRating, setHoveredRating] = useState<{ [key: string]: number | undefined }>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
