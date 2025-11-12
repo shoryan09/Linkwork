@@ -22,7 +22,9 @@ connectDB();
 app.use(cors({ 
   origin: [
     process.env.FRONTEND_URL || "http://localhost:3000",
-    "http://localhost:3001"
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://linkwork-final.vercel.app"
   ],
   credentials: true
 }));
@@ -64,7 +66,9 @@ const io = require("socket.io")(server, {
   cors: {
     origin: [
       process.env.FRONTEND_URL || "http://localhost:3000",
-      "http://localhost:3001"
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://linkwork-final.vercel.app"
     ],
     methods: ["GET", "POST"],
     credentials: true
