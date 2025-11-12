@@ -87,6 +87,7 @@ exports.getUserById = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
   try {
+    console.log("Change password request received for user:", req.user._id);
     const { newPassword } = req.body;
 
     if (!newPassword || newPassword.length < 6) {
@@ -95,8 +96,11 @@ exports.changePassword = async (req, res) => {
 
     const user = await User.findById(req.user._id);
     if (!user) {
+      console.error("User not found in database:", req.user._id);
       return res.status(404).json({ error: "User not found" });
     }
+
+    console.log("User found:", user.email, "Firebase UID:", user.firebaseUid);
 
     // Check if Firebase Admin is initialized
     const isFirebaseInitialized = admin && 
