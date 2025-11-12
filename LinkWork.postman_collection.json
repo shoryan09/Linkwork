@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "LinkWork API",
+    "description": "Complete API collection for LinkWork platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firebaseUid\": \"user-123\",\n  \"email\": \"user@example.com\",\n  \"displayName\": \"John Doe\",\n  \"role\": \"freelancer\",\n  \"profile\": {\n    \"bio\": \"Experienced developer\",\n    \"skills\": [\"JavaScript\", \"React\"],\n    \"location\": \"Mumbai\",\n    \"hourlyRate\": 1500\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Build E-commerce Website\",\n  \"description\": \"Looking for an experienced developer to build a full-featured e-commerce platform with payment integration and admin dashboard\",\n  \"budget\": {\n    \"min\": 50000,\n    \"max\": 80000,\n    \"type\": \"fixed\"\n  },\n  \"skills\": [\"React\", \"Node.js\", \"MongoDB\"],\n  \"duration\": \"medium\",\n  \"location\": \"Mumbai\",\n  \"deadline\": \"2025-12-31\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/projects",
+              "host": ["{{base_url}}"],
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["projects"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/projects?skills=React,Node.js&location=Mumbai&budget=50000",
+              "host": ["{{base_url}}"],
+              "path": ["projects"],
+              "query": [
+                {
+                  "key": "skills",
+                  "value": "React,Node.js"
+                },
+                {
+                  "key": "location",
+                  "value": "Mumbai"
+                },
+                {
+                  "key": "budget",
+                  "value": "50000"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Proposals",
+      "item": [
+        {
+          "name": "Submit Proposal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{firebase_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"{{project_id}}\",\n  \"coverLetter\": \"I have over 5 years of experience building e-commerce platforms. I've worked with React, Node.js, and MongoDB extensively. I can deliver this project within the specified timeline with high quality.\",\n  \"proposedBudget\": 65000,\n  \"deliveryTime\": 45\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/proposals",
+              "host": ["{{base_url}}"],
+              "path": ["proposals"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "firebase_token",
+      "value": "your-firebase-token-here"
+    }
+  ]
+}
