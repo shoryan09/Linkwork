@@ -13,17 +13,39 @@ if (!admin.apps.length) {
     } 
     // Option 2: Use environment variables (fallback)
     else if (process.env.FIREBASE_PROJECT_ID) {
-      // Handle different newline formats
+      // Handle different newline formats - more aggressive approach
       let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+      
       if (privateKey) {
-        // Replace literal \n with actual newlines
+        // Remove any quotes that might wrap the key
+        privateKey = privateKey.replace(/^["']|["']$/g, '');
+        
+        // Try multiple replacement strategies
+        // First, replace literal \\n with \n
+        privateKey = privateKey.replace(/\\\\n/g, "\n");
+        
+        // Then replace \n (without double backslash) with actual newlines
         privateKey = privateKey.replace(/\\n/g, "\n");
-        // If still no newlines, might be stored as single line - try to fix
-        if (!privateKey.includes("\n") && privateKey.includes("-----BEGIN PRIVATE KEY-----")) {
-          privateKey = privateKey
-            .replace(/-----BEGIN PRIVATE KEY-----/g, "-----BEGIN PRIVATE KEY-----\n")
-            .replace(/-----END PRIVATE KEY-----/g, "\n-----END PRIVATE KEY-----\n");
+        
+        // If key is completely on one line (no newlines at all), manually format it
+        if (!privateKey.includes("\n")) {
+          // Find the key content between BEGIN and END
+          const beginMarker = "-----BEGIN PRIVATE KEY-----";
+          const endMarker = "-----END PRIVATE KEY-----";
+          
+          if (privateKey.includes(beginMarker) && privateKey.includes(endMarker)) {
+            // Extract the key content
+            const startIndex = privateKey.indexOf(beginMarker) + beginMarker.length;
+            const endIndex = privateKey.indexOf(endMarker);
+            const keyContent = privateKey.substring(startIndex, endIndex);
+            
+            // Reconstruct with proper line breaks
+            privateKey = beginMarker + "\n" + keyContent.trim() + "\n" + endMarker + "\n";
+          }
         }
+        
+        console.log("Private key has newlines:", privateKey.includes("\n"));
+        console.log("Private key starts with:", privateKey.substring(0, 50));
       }
 
       const serviceAccount = {
